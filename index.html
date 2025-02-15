@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click and Surprise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #FADADD;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 10;
+    }
+
+    button {
+      background-color: #FFC1E3;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .popup {
+      position: absolute;
+      background-color: white;
+      border: 3px solid #FFC1E3;
+      width: 350px;
+      height: 220px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.7s ease;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 5;
+    }
+
+    .popup.visible {
+      opacity: 1;
+    }
+
+    .popup-header {
+      background-color: #FFC1E3;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px 8px 0 0;
+      position: relative;
+    }
+
+    .popup-header img {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .popup-body {
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: #FF1493;
+      text-align: center;
+    }
+
+    .popup-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .popup-buttons div {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .minimize {
+      background-color: #FFD700;
+    }
+
+    .maximize {
+      background-color: #32CD32;
+    }
+
+    .close {
+      background-color: #FF6347;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="clickButton">Click vào đây</button>
+  </div>
+
+  <script>
+    document.getElementById('clickButton').addEventListener('click', function() {
+      let numberOfPopups = 200;
+      let delay = 150;
+      for (let i = 0; i < numberOfPopups; i++) {
+        setTimeout(() => createPopup(), i * delay);
+      }
+    });
+
+    function createPopup() {
+      const popup = document.createElement('div');
+      popup.classList.add('popup');
+
+      const header = document.createElement('div');
+      header.classList.add('popup-header');
+
+      const cheeseImg = document.createElement('img');
+      cheeseImg.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT62SqmDr4b8XGe99nCp8lvPfZkb6-po-8-qg&s';
+      header.appendChild(cheeseImg);
+
+      const buttons = document.createElement('div');
+      buttons.classList.add('popup-buttons');
+
+      const minimizeBtn = document.createElement('div');
+      minimizeBtn.classList.add('minimize');
+      
+      const maximizeBtn = document.createElement('div');
+      maximizeBtn.classList.add('maximize');
+      
+      const closeBtn = document.createElement('div');
+      closeBtn.classList.add('close');
+      closeBtn.onclick = () => popup.remove();
+
+      buttons.appendChild(minimizeBtn);
+      buttons.appendChild(maximizeBtn);
+      buttons.appendChild(closeBtn);
+
+      header.appendChild(buttons);
+
+      const body = document.createElement('div');
+      body.classList.add('popup-body');
+      body.innerText = 'Chúc em sinh nhật vui vẻ';
+
+      popup.appendChild(header);
+      popup.appendChild(body);
+      document.body.appendChild(popup);
+
+      const x = Math.random() * (window.innerWidth - 350);
+      const y = Math.random() * (window.innerHeight - 220);
+      popup.style.left = `${x}px`;
+      popup.style.top = `${y}px`;
+
+      setTimeout(() => {
+        popup.classList.add('visible');
+      }, 100);
+    }
+  </script>
+</body>
+</html>
